@@ -1,9 +1,38 @@
 stages:
   - test
   - package
-  
-test:
-    stage: test
-    
+
+test-backend:
+  stage: test
+  image: openjdk:17.0.2
+  script:
+    - cd starwarsarchive-backend
+    - ./mvnw test
+
+test-frontend:
+  stage: test
+  image: node:18.14.2
+  script:
+    - cd starwarsarchive-frontend
+    - npm install
+
 package:
-    stage: package
+  stage: package
+  image: docker:18-git
+  variables:
+    DOCKER_DRIVER: overlay2
+  services:
+    - docker:18-dind
+  script:
+    - docker login -u $CONTAINER_REGISTRY_NAME -p $CONTAINER_REGISTRY_PASS $CONTAINER_REGISTRY
+    - cd starwarsarchive-backend
+    - echo "TODO Build and push backend image"
+    - cd ../starwarsarchive-frontend
+    - echo "TODO Build and push frontend image"
+    - docker logout $CONTAINER_REGISTRY
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+      when: always
+    - when: manual
+
+
