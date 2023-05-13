@@ -1,3 +1,9 @@
 stages:
   - test
   - package
+  
+test:
+    stage: test
+    
+package:
+    stage: package
