@@ -1,6 +1,7 @@
 stages:
   - test
   - package
+  - publish
 
 test-backend:
   stage: test
@@ -31,7 +32,26 @@ package:
     - echo "TODO Build and push frontend image"
     - docker logout $CONTAINER_REGISTRY
   rules:
-    - if: '$CI_COMMIT_BRANCH == "develop"'
+    - if: '$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "main"'
+      when: always
+    - when: manual
+
+publish:
+  stage: publish
+  image: docker:18-git
+  variables:
+    DOCKER_DRIVER: overlay2
+  services:
+    - docker:18-dind
+  script:
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - cd starwarsarchive-backend
+    - echo "TODO Pull and deploy backend image"
+    - cd ../starwarsarchive-frontend
+    - echo "TODO Pull and deploy frontend image"
+    - docker logout
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
       when: always
     - when: manual
 
