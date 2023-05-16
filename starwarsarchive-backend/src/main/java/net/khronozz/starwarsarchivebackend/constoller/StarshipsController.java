@@ -13,11 +13,14 @@
 // limitations under the License.
 package net.khronozz.starwarsarchivebackend.constoller;
 
+import net.khronozz.starwarsarchivebackend.service.StarshipsService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Controller for the status of the API
+ * Controller for the Star Wars starships
  *
  * @author Nicolas Favre
  * @version 1.0.0
@@ -26,15 +29,33 @@ import org.springframework.web.bind.annotation.RestController;
  * @userid khronozz
  */
 @RestController
-public class StatusController {
+@RequestMapping("/api/starships")
+public class StarshipsController {
+
+    private final StarshipsService starshipsService;
+
+    public StarshipsController(StarshipsService starshipsService) {
+        this.starshipsService = starshipsService;
+    }
 
     /**
-     * Get the status of the API
+     * Get all the starships
      *
-     * @return String
+     * @return ManyStarshipsDTO
      */
-    @GetMapping("/api/status")
-    public String status() {
-        return "OK";
+    @GetMapping("")
+    public Object getAllStarships() {
+        return starshipsService.getAllStarships();
+    }
+
+    /**
+     * Get a starship by its id
+     *
+     * @param id the id of the starship
+     * @return StarshipDTO
+     */
+    @GetMapping("/{id}")
+    public Object getStarshipById(@PathVariable String id) {
+        return starshipsService.getStarshipById(Integer.parseInt(id));
     }
 }

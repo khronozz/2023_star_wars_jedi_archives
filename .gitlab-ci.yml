@@ -27,9 +27,9 @@ package:
   script:
     - docker login -u $CONTAINER_REGISTRY_NAME -p $CONTAINER_REGISTRY_PASS $CONTAINER_REGISTRY
     - cd starwarsarchive-backend
-    - echo "TODO Build and push backend image"
+    - docker build -t $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:lastest .
     - cd ../starwarsarchive-frontend
-    - echo "TODO Build and push frontend image"
+    - docker build -t $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:lastest .
     - docker logout $CONTAINER_REGISTRY
   rules:
     - if: '$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "main"'
@@ -45,10 +45,12 @@ publish:
     - docker:18-dind
   script:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
-    - cd starwarsarchive-backend
-    - echo "TODO Pull and deploy backend image"
-    - cd ../starwarsarchive-frontend
-    - echo "TODO Pull and deploy frontend image"
+    - docker pull $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:lastest
+    - docker pull $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:lastest
+    - docker tag $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:lastest khronozz/starwarsarchive-backend:lastest
+    - docker tag $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:lastest khronozz/starwarsarchive-frontend:lastest
+    - docker push khronozz/starwarsarchive-backend:lastest
+    - docker push khronozz/starwarsarchive-frontend:lastest
     - docker logout
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
