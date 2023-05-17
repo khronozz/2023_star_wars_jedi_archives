@@ -11,13 +11,12 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package net.khronozz.starwarsarchivebackend.constoller;
+package net.khronozz.starwarsarchivebackend.model;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.*;
 
 /**
- * Controller for the status of the API
+ * DTO for a Star Wars character
  *
  * @author Nicolas Favre
  * @version 1.0.0
@@ -25,16 +24,26 @@ import org.springframework.web.bind.annotation.RestController;
  * @email khronozz-dev@proton.me
  * @userid khronozz
  */
-@RestController
-public class StatusController {
-
-    /**
-     * Get the status of the API
-     *
-     * @return String
-     */
-    @GetMapping("/api/status")
-    public String status() {
-        return "OK";
-    }
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class PeopleDTO {
+    private String name;
+    private String height;
+    private String mass;
+    private String hair_color;
+    private String skin_color;
+    private String eye_color;
+    private String birth_year;
+    private String gender;
+    private String homeworld;
+    private String[] films;
+    private String[] species;
+    private String[] vehicles;
+    private String[] starships;
+    private String created;
+    private String edited;
+    private String url;
 }
