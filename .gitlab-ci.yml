@@ -40,6 +40,7 @@ package-backend:
     - cd starwarsarchive-backend
     - docker pull $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:lastest || true
     - docker build -t $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:lastest .
+    - docker push $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:lastest
     - docker logout $CONTAINER_REGISTRY
   rules:
     - if: '$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "main"'
@@ -58,6 +59,7 @@ package-backend:
     - cd starwarsarchive-frontend
     - docker pull $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:lastest || true
     - docker build -t $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:lastest .
+    - docker push $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:lastest
     - docker logout $CONTAINER_REGISTRY
   rules:
     - if: '$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "main"'
