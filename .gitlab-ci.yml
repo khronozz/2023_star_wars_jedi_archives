@@ -2,7 +2,7 @@ stages:
   - build
   - test
   - package
-  - publish
+  - upload
 
 build-backend:
   stage: build
@@ -46,26 +46,26 @@ package-backend:
       when: always
     - when: manual
 
-#package-frontend:
-#  stage: package
-#  image: docker:18-git
-#  variables:
-#    DOCKER_DRIVER: overlay2
-#  services:
-#    - docker:18-dind
-#  script:
-#    - docker login -u $CONTAINER_REGISTRY_NAME -p $CONTAINER_REGISTRY_PASS $CONTAINER_REGISTRY
-#    - cd starwarsarchive-frontend
-#    - docker pull $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:lastest || true
-#    - docker build -t $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:lastest .
-#    - docker logout $CONTAINER_REGISTRY
-#  rules:
-#    - if: '$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "main"'
-#      when: always
-#    - when: manual
+.package-frontend:
+  stage: package
+  image: docker:18-git
+  variables:
+    DOCKER_DRIVER: overlay2
+  services:
+    - docker:18-dind
+  script:
+    - docker login -u $CONTAINER_REGISTRY_NAME -p $CONTAINER_REGISTRY_PASS $CONTAINER_REGISTRY
+    - cd starwarsarchive-frontend
+    - docker pull $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:lastest || true
+    - docker build -t $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:lastest .
+    - docker logout $CONTAINER_REGISTRY
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "main"'
+      when: always
+    - when: manual
 
-publish:
-  stage: publish
+upload-dockerhub:
+  stage: upload
   image: docker:18-git
   variables:
     DOCKER_DRIVER: overlay2
@@ -80,9 +80,8 @@ publish:
     - docker push khronozz/starwarsarchive-backend:lastest
     - docker push khronozz/starwarsarchive-frontend:lastest
     - docker logout
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-      when: always
-    - when: manual
+  only:
+    refs:
+      - main
 
 
