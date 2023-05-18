@@ -47,7 +47,7 @@ package-backend:
       when: always
     - when: manual
 
-.package-frontend:
+package-frontend:
   stage: package
   image: docker:18-git
   variables:
