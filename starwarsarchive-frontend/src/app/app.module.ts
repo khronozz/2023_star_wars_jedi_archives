@@ -14,6 +14,14 @@ import { OverviewComponent } from './pages/overview/overview.component';
 import { AppbarComponent } from './components/appbar/appbar.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import { SignupComponent } from './pages/signup/signup.component';
+import { ArchivedetailsComponent } from './pages/overview/modal/archivedetails/archivedetails.component';
+import { FooterComponent } from './components/footer/footer.component';
+import {MatTableModule} from "@angular/material/table";
+import { ArchiveComponent } from './components/archive/archive.component';
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {HttpInterceptorService} from "./services/http.interceptor.service";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 @NgModule({
   declarations: [
@@ -21,7 +29,10 @@ import { SignupComponent } from './pages/signup/signup.component';
     SigninComponent,
     OverviewComponent,
     AppbarComponent,
-    SignupComponent
+    SignupComponent,
+    ArchivedetailsComponent,
+    FooterComponent,
+    ArchiveComponent
   ],
   imports: [
     BrowserModule,
@@ -34,9 +45,19 @@ import { SignupComponent } from './pages/signup/signup.component';
     MatButtonModule,
     FlexModule,
     MatToolbarModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTableModule,
+    HttpClientModule,
+    MatProgressSpinnerModule,
+    MatButtonToggleModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

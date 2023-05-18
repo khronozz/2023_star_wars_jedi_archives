@@ -1,3 +1,41 @@
 <app-appbar></app-appbar>
 
-<p>overview works! User logged in</p>
+<div class="container">
+
+  <div fxLayout="row" fxLayoutAlign="center">
+    <h1 class="welcome-message">Hi {{username}},</h1>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <h1 class="welcome-message">Welcome to the Star Wars Online Archive !</h1>
+  </div>
+  <h2 class="archive-title">Current Archives (Total: {{totalArchives}})</h2>
+  <p>- Click on the name of the archive to see more details</p>
+  <p>- Click on the filter icons to filter the archives by type</p>
+
+  <mat-button-toggle-group class="filter-group" [(ngModel)]="selectedFilter" (change)="filterArchives()">
+    <mat-button-toggle value="all">All</mat-button-toggle>
+    <mat-button-toggle value="films">Films</mat-button-toggle>
+    <mat-button-toggle value="vehicles">Vehicles</mat-button-toggle>
+    <mat-button-toggle value="people">People</mat-button-toggle>
+    <mat-button-toggle value="planets">Planets</mat-button-toggle>
+    <mat-button-toggle value="species">Species</mat-button-toggle>
+    <mat-button-toggle value="starships">Starships</mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <ng-container *ngIf="loadingArchives; else archiveContent">
+    <div class="spinner-container">
+      <mat-spinner class="loading-archive" mode="indeterminate"></mat-spinner>
+    </div>
+  </ng-container>
+  <ng-template #archiveContent>
+    <div class="archive-holder">
+      <app-archive
+        *ngFor="let archive of selectedArchive"
+        [name]="archive.title || archive.name"
+        [type]="getArchiveType(archive)"
+        [url]="archive.url"
+        (onShowDetails)="onShowMore(archive)"
+      ></app-archive>
+    </div>
+  </ng-template>
+</div>
