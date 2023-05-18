@@ -7,6 +7,7 @@ indent_style = space
 indent_size = 2
 insert_final_newline = true
 trim_trailing_whitespace = true
+ij_html_do_not_indent_children_of_tags = none
 
 [*.ts]
 quote_type = single
