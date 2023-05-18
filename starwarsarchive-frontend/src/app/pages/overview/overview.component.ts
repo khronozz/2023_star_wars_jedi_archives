@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  * overview.component.ts
- * Component used to display the overview of the Star Wars Archive
+ * Component used to display an overview of the Star Wars Archive
  *
  * @author Nicolas Favre
  * @date 18.05.2023
@@ -49,12 +49,15 @@ export class OverviewComponent implements OnInit {
   allPlanets: PlanetDto[] = [];
   allSpecies: SpeciesDto[] = [];
   allStarships: StarshipDto[] = [];
+  // Every archive in one array
   allArchives: any[] = [];
+  // Archive to display
   selectedArchive: any | null = null;
   loadingArchives: boolean = true;
   totalArchives: number = 0;
   selectedFilter: string = 'all';
 
+  // Archive types to display on the archive card
   archiveTypes: { [key: string]: string } = {
     'films': 'Film',
     'vehicles': 'Vehicle',
@@ -64,6 +67,7 @@ export class OverviewComponent implements OnInit {
     'starships': 'Starship'
   };
 
+  // Archive filter
   archiveFilter: { [key: string]: () => void } = {
     'films': () => this.loadFilms(),
     'vehicles': () => this.loadVehicles(),
@@ -83,6 +87,7 @@ export class OverviewComponent implements OnInit {
   ngOnInit(): void {
     this.username = localStorage.getItem('USER');
 
+    // Load all archives
     forkJoin([
       this.archiveService.getAllFilms(),
       this.archiveService.getAllVehicles(),
@@ -107,7 +112,7 @@ export class OverviewComponent implements OnInit {
         ...this.allStarships
       ];
 
-      // Mix all archives
+      // Mix all archives to display them randomly
       this.allArchives.sort(() => Math.random() - 0.5);
 
       this.selectedArchive = this.allArchives;
@@ -116,44 +121,72 @@ export class OverviewComponent implements OnInit {
     });
   }
 
+  /**
+   * Filter the archives to display
+   */
   filterArchives() {
     this.loadingArchives = true; // Set loading flag to true
     this.totalArchives = 0; // Reset total archives count
     setTimeout(() => {
-      this.archiveFilter[this.selectedFilter]();
+      this.archiveFilter[this.selectedFilter](); // Filter archives
       this.totalArchives = this.selectedArchive.length;
       this.loadingArchives = false; // Set loading flag to false after a small delay
-    }, 500); // Adjust the delay time as needed
+    }, 500);
   }
 
+  /**
+   * Select the films archive
+   */
   loadFilms() {
     this.selectedArchive = this.allFilms;
   }
 
+  /**
+   * Select the vehicles archive
+   */
   loadVehicles() {
     this.selectedArchive = this.allVehicles;
   }
 
+  /**
+   * Select the people archive
+   */
   loadPeople() {
     this.selectedArchive = this.allPeople;
   }
 
+  /**
+   * Select the planets archive
+   */
   loadPlanets() {
     this.selectedArchive = this.allPlanets;
   }
 
+  /**
+   * Select the species archive
+   */
   loadSpecies() {
     this.selectedArchive = this.allSpecies;
   }
 
+  /**
+   * Select the starships archive
+   */
   loadStarships() {
     this.selectedArchive = this.allStarships;
   }
 
+  /**
+   * Select all archives
+   */
   loadAll() {
     this.selectedArchive = this.allArchives;
   }
 
+  /**
+   * Interpret the archive type
+   * @param archive
+   */
   getArchiveType(archive: FilmDto | VehicleDto | PeopleDto | PlanetDto | SpeciesDto | StarshipDto): string {
     for (const type in this.archiveTypes) {
       if (archive.url.includes(type)) {
@@ -163,6 +196,10 @@ export class OverviewComponent implements OnInit {
     return 'Unknown';
   }
 
+  /**
+   * Open the archive details modal
+   * @param archive
+   */
   onShowMore(archive: FilmDto | VehicleDto | PeopleDto | PlanetDto | SpeciesDto | StarshipDto) {
     this.dialog.open(ArchivedetailsComponent, {
       width: "50%",
