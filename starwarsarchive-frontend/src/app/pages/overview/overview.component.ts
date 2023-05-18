@@ -32,6 +32,8 @@ import {PlanetDto} from "../../models/dto/planet.dto.model";
 import {SpeciesDto} from "../../models/dto/species.dto.model";
 import {StarshipDto} from "../../models/dto/starship.dto.model";
 import {forkJoin} from "rxjs";
+import {MatDialog} from "@angular/material/dialog";
+import {ArchivedetailsComponent} from "./modal/archivedetails/archivedetails.component";
 
 @Component({
   selector: 'app-overview',
@@ -74,6 +76,7 @@ export class OverviewComponent implements OnInit {
 
   constructor(
     private archiveService: ArchivesService,
+    private dialog: MatDialog,
   ) {
   }
 
@@ -161,11 +164,13 @@ export class OverviewComponent implements OnInit {
   }
 
   onShowMore(archive: FilmDto | VehicleDto | PeopleDto | PlanetDto | SpeciesDto | StarshipDto) {
-    if ("title" in archive) {
-      console.log('Clicked on show more for archive "' + archive.title + '"');
-    } else if ("name" in archive) {
-      console.log('Clicked on show more for archive "' + archive.name + '"');
-    }
-    console.log('Clicked on archive with url: ' + archive.url);
+    this.dialog.open(ArchivedetailsComponent, {
+      width: "50%",
+      height: "60%",
+      data: {
+        archive: archive,
+        type: this.getArchiveType(archive)
+      }
+    })
   }
 }
