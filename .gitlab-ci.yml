@@ -1,0 +1,89 @@
+stages:
+  - build
+  - test
+  - package
+  - upload
+
+build-backend:
+  stage: build
+  image: openjdk:17.0.2
+  script:
+    - cd starwarsarchive-backend
+    - ./mvnw clean package -DskipTests
+  artifacts:
+    paths:
+      - starwarsarchive-backend/target/*.jar
+
+test-backend:
+  stage: test
+  image: openjdk:17.0.2
+  script:
+    - cd starwarsarchive-backend
+    - ./mvnw test
+
+test-frontend:
+  stage: test
+  image: node:18.14.2
+  script:
+    - cd starwarsarchive-frontend
+    - npm install
+
+package-backend:
+  stage: package
+  image: docker:18-git
+  variables:
+    DOCKER_DRIVER: overlay2
+  services:
+    - docker:18-dind
+  script:
+    - docker login -u $CONTAINER_REGISTRY_NAME -p $CONTAINER_REGISTRY_PASS $CONTAINER_REGISTRY
+    - cd starwarsarchive-backend
+    - docker pull $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:lastest || true
+    - docker build -t $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:lastest .
+    - docker push $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:lastest
+    - docker logout $CONTAINER_REGISTRY
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "main"'
+      when: always
+    - when: manual
+
+package-frontend:
+  stage: package
+  image: docker:18-git
+  variables:
+    DOCKER_DRIVER: overlay2
+  services:
+    - docker:18-dind
+  script:
+    - docker login -u $CONTAINER_REGISTRY_NAME -p $CONTAINER_REGISTRY_PASS $CONTAINER_REGISTRY
+    - cd starwarsarchive-frontend
+    - docker pull $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:lastest || true
+    - docker build -t $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:lastest .
+    - docker push $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:lastest
+    - docker logout $CONTAINER_REGISTRY
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "main"'
+      when: always
+    - when: manual
+
+upload-dockerhub:
+  stage: upload
+  image: docker:18-git
+  variables:
+    DOCKER_DRIVER: overlay2
+  services:
+    - docker:18-dind
+  script:
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    - docker pull $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:lastest
+    - docker pull $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:lastest
+    - docker tag $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:lastest khronozz/starwarsarchive-backend:lastest
+    - docker tag $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:lastest khronozz/starwarsarchive-frontend:lastest
+    - docker push khronozz/starwarsarchive-backend:lastest
+    - docker push khronozz/starwarsarchive-frontend:lastest
+    - docker logout
+  only:
+    refs:
+      - main
+
+

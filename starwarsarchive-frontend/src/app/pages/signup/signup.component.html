@@ -1,0 +1,40 @@
+<div class="background">
+  <div class="login-form">
+    <mat-card>
+      <mat-card-title>Star Wars Jedi Archives</mat-card-title>
+      <mat-card-subtitle>Sign in</mat-card-subtitle>
+      <mat-card-content >
+        <!-- Error message -->
+        <mat-error *ngIf="message" class="error-message">{{message}}</mat-error>
+        <!-- Form for new user credentials -->
+        <form [formGroup]="formGroup" fxLayout="column">
+          <mat-form-field appearance="outline">
+            <mat-label>Username</mat-label>
+            <input matInput placeholder="Username" [(ngModel)]="username" formControlName="username">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" [(ngModel)]="password" formControlName="password">
+            <button mat-icon-button matSuffix [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide"
+                    (click)="hide = !hide">
+              <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Repeat password</mat-label>
+            <input matInput placeholder="Repeat password" [type]="hideRepeat ? 'password' : 'text'"
+                   [(ngModel)]="passwordRepeat" formControlName="passwordRepeat">
+            <button mat-icon-button matSuffix [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideRepeat"
+                    (click)="hideRepeat = !hideRepeat">
+              <mat-icon>{{hideRepeat ? 'visibility' : 'visibility_off'}}</mat-icon>
+            </button>
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+      <mat-card-actions fxLayoutAlign="space-between">
+        <button mat-button color="primary" routerLink="/signin">Sign in</button>
+        <button mat-raised-button color="primary" (click)="signup()" [disabled]="!formGroup.valid">Sign up</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

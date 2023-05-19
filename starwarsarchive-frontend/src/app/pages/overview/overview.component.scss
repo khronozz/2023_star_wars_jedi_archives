@@ -1,0 +1,85 @@
+.container {
+  padding: 50px 30px 30px;
+}
+
+body {
+  background-color: #FFFFFF !important;
+}
+
+
+.welcome-message {
+  font-size: 4em;
+  font-weight: 300;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.archive-title {
+  font-size: 1.5em;
+  font-weight: 400;
+  margin-bottom: 10px;
+  margin-top: 50px;
+}
+
+.archive-holder {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+
+.spinner-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.filter-group {
+  margin-bottom: 10px;
+}
+
+.archive-holder {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-gap: 20px;
+}
+
+.archive-holder app-archive {
+  width: 100%;
+}
+
+.clear-button {
+  height: 23px;
+}
+
+@media screen and (max-width: 700px) {
+  app-booking {
+    flex: 0 0 97%;
+    margin: 1%;
+  }
+}
+
+@media screen and (min-width: 700px) {
+  app-booking {
+    flex: 0 0 48%;
+    margin: 1%;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  app-booking {
+    flex: 0 0 30%;
+    margin: 1%;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  app-booking {
+    flex: 0 0 23%;
+    margin: 1%;
+  }
+}
