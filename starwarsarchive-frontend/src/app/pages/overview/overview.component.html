@@ -11,17 +11,34 @@
   <h2 class="archive-title">Current Archives (Total: {{totalArchives}})</h2>
   <p>- Click on the name of the archive to see more details</p>
   <p>- Click on the filter icons to filter the archives by type</p>
+  <p>- Use the search bar on the right to search for archives by name</p>
 
-  <!-- Content filter buttons -->
-  <mat-button-toggle-group class="filter-group" [(ngModel)]="selectedFilter" (change)="filterArchives()">
-    <mat-button-toggle value="all">All</mat-button-toggle>
-    <mat-button-toggle value="films">Films</mat-button-toggle>
-    <mat-button-toggle value="vehicles">Vehicles</mat-button-toggle>
-    <mat-button-toggle value="people">People</mat-button-toggle>
-    <mat-button-toggle value="planets">Planets</mat-button-toggle>
-    <mat-button-toggle value="species">Species</mat-button-toggle>
-    <mat-button-toggle value="starships">Starships</mat-button-toggle>
-  </mat-button-toggle-group>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+
+    <!-- Content filter buttons -->
+    <mat-button-toggle-group class="filter-group" [(ngModel)]="selectedFilter" (change)="filterArchives()">
+      <mat-button-toggle value="all">All</mat-button-toggle>
+      <mat-button-toggle value="films">Films</mat-button-toggle>
+      <mat-button-toggle value="vehicles">Vehicles</mat-button-toggle>
+      <mat-button-toggle value="people">People</mat-button-toggle>
+      <mat-button-toggle value="planets">Planets</mat-button-toggle>
+      <mat-button-toggle value="species">Species</mat-button-toggle>
+      <mat-button-toggle value="starships">Starships</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <!-- Search bar -->
+    <div class="search-bar">
+      <mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <input matInput placeholder="Search Archives" [(ngModel)]="searchQuery" (input)="searchArchives()">
+          <button class="clear-button" mat-button aria-label="Clear" *ngIf="searchQuery" (click)="clearSearch()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </mat-form-field>
+    </div>
+
+  </div>
 
   <!-- To indicate date is being fetched -->
   <ng-container *ngIf="loadingArchives; else archiveContent">

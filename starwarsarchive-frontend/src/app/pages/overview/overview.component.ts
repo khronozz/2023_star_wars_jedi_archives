@@ -53,9 +53,11 @@ export class OverviewComponent implements OnInit {
   allArchives: any[] = [];
   // Archive to display
   selectedArchive: any | null = null;
+  selectedArchiveName: string = '';
   loadingArchives: boolean = true;
   totalArchives: number = 0;
   selectedFilter: string = 'all';
+  searchQuery: string = '';
 
   // Archive types to display on the archive card
   archiveTypes: { [key: string]: string } = {
@@ -116,6 +118,7 @@ export class OverviewComponent implements OnInit {
       this.allArchives.sort(() => Math.random() - 0.5);
 
       this.selectedArchive = this.allArchives;
+      this.selectedArchiveName = 'all';
       this.loadingArchives = false;
       this.totalArchives = this.selectedArchive.length;
     });
@@ -131,7 +134,7 @@ export class OverviewComponent implements OnInit {
       this.archiveFilter[this.selectedFilter](); // Filter archives
       this.totalArchives = this.selectedArchive.length;
       this.loadingArchives = false; // Set loading flag to false after a small delay
-    }, 500);
+    }, 300);
   }
 
   /**
@@ -139,6 +142,7 @@ export class OverviewComponent implements OnInit {
    */
   loadFilms() {
     this.selectedArchive = this.allFilms;
+    this.selectedArchiveName = 'films';
   }
 
   /**
@@ -146,6 +150,7 @@ export class OverviewComponent implements OnInit {
    */
   loadVehicles() {
     this.selectedArchive = this.allVehicles;
+    this.selectedArchiveName = 'vehicles';
   }
 
   /**
@@ -153,6 +158,7 @@ export class OverviewComponent implements OnInit {
    */
   loadPeople() {
     this.selectedArchive = this.allPeople;
+    this.selectedArchiveName = 'people';
   }
 
   /**
@@ -160,6 +166,7 @@ export class OverviewComponent implements OnInit {
    */
   loadPlanets() {
     this.selectedArchive = this.allPlanets;
+    this.selectedArchiveName = 'planets';
   }
 
   /**
@@ -167,6 +174,7 @@ export class OverviewComponent implements OnInit {
    */
   loadSpecies() {
     this.selectedArchive = this.allSpecies;
+    this.selectedArchiveName = 'species';
   }
 
   /**
@@ -174,6 +182,7 @@ export class OverviewComponent implements OnInit {
    */
   loadStarships() {
     this.selectedArchive = this.allStarships;
+    this.selectedArchiveName = 'starships';
   }
 
   /**
@@ -181,6 +190,7 @@ export class OverviewComponent implements OnInit {
    */
   loadAll() {
     this.selectedArchive = this.allArchives;
+    this.selectedArchiveName = 'all';
   }
 
   /**
@@ -209,5 +219,39 @@ export class OverviewComponent implements OnInit {
         type: this.getArchiveType(archive)
       }
     })
+  }
+
+  searchArchives() {
+    if (this.searchQuery === '') {
+      this.loadingArchives = true;
+      this.totalArchives = 0;
+      setTimeout(() => {
+        this.archiveFilter[this.selectedArchiveName]();
+        this.totalArchives = this.selectedArchive.length;
+        this.loadingArchives = false;
+      }, 300);
+      return;
+    }
+    this.archiveFilter[this.selectedArchiveName]();
+    this.loadingArchives = true;
+    this.totalArchives = 0;
+    setTimeout(() => {
+      this.selectedArchive = this.selectedArchive.filter((archive: FilmDto | VehicleDto | PeopleDto | PlanetDto | SpeciesDto | StarshipDto) => {
+        if ("title" in archive) {
+          return archive.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+        } else if ("name" in archive) {
+          return archive.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+        } else {
+          return false
+        }
+      });
+      this.totalArchives = this.selectedArchive.length;
+      this.loadingArchives = false;
+    }, 300);
+  }
+
+  clearSearch() {
+    this.searchQuery = ''
+    this.searchArchives()
   }
 }

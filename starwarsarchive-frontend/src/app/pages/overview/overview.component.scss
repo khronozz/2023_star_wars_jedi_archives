@@ -52,6 +52,10 @@ body {
   width: 100%;
 }
 
+.clear-button {
+  height: 23px;
+}
+
 @media screen and (max-width: 700px) {
   app-booking {
     flex: 0 0 97%;
