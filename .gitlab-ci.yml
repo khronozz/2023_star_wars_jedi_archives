@@ -57,9 +57,9 @@ package-frontend:
   script:
     - docker login -u $CONTAINER_REGISTRY_NAME -p $CONTAINER_REGISTRY_PASS $CONTAINER_REGISTRY
     - cd starwarsarchive-frontend
-    - docker pull $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:lastest || true
-    - docker build -t $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:lastest .
-    - docker push $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:lastest
+    - docker pull $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:latest || true
+    - docker build -t $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:latest .
+    - docker push $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:latest
     - docker logout $CONTAINER_REGISTRY
   rules:
     - if: '$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "main"'
@@ -75,12 +75,12 @@ upload-dockerhub:
     - docker:18-dind
   script:
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
-    - docker pull $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:lastest
-    - docker pull $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:lastest
-    - docker tag $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:lastest khronozz/starwarsarchive-backend:lastest
-    - docker tag $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:lastest khronozz/starwarsarchive-frontend:lastest
-    - docker push khronozz/starwarsarchive-backend:lastest
-    - docker push khronozz/starwarsarchive-frontend:lastest
+    - docker pull $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:latest
+    - docker pull $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:latest
+    - docker tag $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:latest khronozz/starwarsarchive-backend:latest
+    - docker tag $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:latest khronozz/starwarsarchive-frontend:latest
+    - docker push khronozz/starwarsarchive-backend:latest
+    - docker push khronozz/starwarsarchive-frontend:latest
     - docker logout
   only:
     refs:
