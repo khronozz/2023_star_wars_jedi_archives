@@ -4,10 +4,6 @@ Online version of the Star Wars Jedi Archives, based on the [https://swapi.dev](
 
 ## Getting Started
 
-### Accessing the online version
-
-The online version of the Star Wars Jedi Archives is available at [https://starwarsarchive.khronozz.net/](https://starwarsarchive.khronozz.net/).
-
 ### Running the project locally using Docker Compose
 
 The project can be run locally using Docker Compose. To do so, you need to have Docker and Docker Compose installed on your machine.
