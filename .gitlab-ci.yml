@@ -38,9 +38,9 @@ package-backend:
   script:
     - docker login -u $CONTAINER_REGISTRY_NAME -p $CONTAINER_REGISTRY_PASS $CONTAINER_REGISTRY
     - cd starwarsarchive-backend
-    - docker pull $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:lastest || true
-    - docker build -t $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:lastest .
-    - docker push $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:lastest
+    - docker pull $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:latest || true
+    - docker build -t $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:latest .
+    - docker push $CONTAINER_REGISTRY/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:latest
     - docker logout $CONTAINER_REGISTRY
   rules:
     - if: '$CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "main"'
