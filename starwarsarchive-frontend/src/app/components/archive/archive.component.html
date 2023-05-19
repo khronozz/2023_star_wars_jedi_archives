@@ -1,0 +1,13 @@
+<!-- Material card containing few information about a Star Wars Archive -->
+
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title>{{ name }}</mat-card-title>
+    <mat-card-subtitle>Type: {{ type }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-actions>
+    <button mat-button class="more-details-button" (click)="onShowDetailsClick()">
+      More Details
+    </button>
+  </mat-card-actions>
+</mat-card>

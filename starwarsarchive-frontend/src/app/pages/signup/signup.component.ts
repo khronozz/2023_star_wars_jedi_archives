@@ -23,7 +23,7 @@
  * @userid khronozz
  */
 
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthentificationService} from "../../services/authentification.service";
 import {Router} from "@angular/router";
@@ -33,7 +33,7 @@ import {Router} from "@angular/router";
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
-export class SignupComponent {
+export class SignupComponent implements OnInit{
   // Toggle password visibility
   hide: boolean = true;
   hideRepeat: boolean = true;

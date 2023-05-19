@@ -1,0 +1,43 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  padding: 2rem;
+  min-height: calc(100% - 4rem);
+
+  .header {
+    //Use only needed space
+    flex: 0 0 auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    h1 {
+      font-size: 2em;
+      font-weight: 500;
+    }
+  }
+
+  .content {
+    width: 100%;
+    align-items: start;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .actions {
+    //Action button must be always at the bottom but always visible
+    flex: 0 0 auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+
+    button {
+      margin: 0 1rem;
+    }
+  }
+}
