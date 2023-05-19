@@ -62,7 +62,7 @@ export class AppRoutingModule {
       this.router.navigate(['signin']);
     }
 
-    // Redirect to overview if logged in
+    // Redirect to overview if user access page and was already logged in
     this.router.events.subscribe((event: any) => {
       if (event.url === "/") {
         if (AuthentificationService.isLoggedIn()) {

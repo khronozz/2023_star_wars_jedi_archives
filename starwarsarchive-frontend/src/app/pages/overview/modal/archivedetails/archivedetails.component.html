@@ -1,16 +1,17 @@
-<mat-dialog-content>
-  <h2 mat-dialog-title>Archive : {{name}}</h2>
-
-  <!-- Display more details about an archive -->
-  <mat-dialog-content>
-    <p>Type : {{type}}</p>
+<!-- Display more details about an archive -->
+<div class="container">
+  <div class="header">
+    <h2>Archive : {{name}}</h2>
+  </div>
+  <div class="content">
+    <p>Type : <b>{{type}}</b></p>
     <p *ngFor="let info of additionalDetails">
       {{info}}
     </p>
     <p>URL : <a href="{{data.archive.url}}">{{data.archive.url}}</a></p>
-  </mat-dialog-content>
+  </div>
 
-  <mat-dialog-actions align="end">
+  <div class="actions">
     <button mat-raised-button color="primary" (click)="closeDialog()">Close</button>
-  </mat-dialog-actions>
-</mat-dialog-content>
+  </div>
+</div>

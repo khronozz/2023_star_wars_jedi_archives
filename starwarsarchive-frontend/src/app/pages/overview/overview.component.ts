@@ -213,15 +213,25 @@ export class OverviewComponent implements OnInit {
   onShowMore(archive: FilmDto | VehicleDto | PeopleDto | PlanetDto | SpeciesDto | StarshipDto) {
     this.dialog.open(ArchivedetailsComponent, {
       width: "50%",
-      height: "60%",
+      height: "85%",
       data: {
         archive: archive,
-        type: this.getArchiveType(archive)
+        type: this.getArchiveType(archive),
+        allFilms: this.allFilms,
+        allVehicles: this.allVehicles,
+        allPeople: this.allPeople,
+        allPlanets: this.allPlanets,
+        allSpecies: this.allSpecies,
+        allStarships: this.allStarships
       }
     })
   }
 
+  /**
+   * Search for archive names that match the search query
+   */
   searchArchives() {
+    // If the search query is empty, load back the selected archive
     if (this.searchQuery === '') {
       this.loadingArchives = true;
       this.totalArchives = 0;
@@ -237,6 +247,7 @@ export class OverviewComponent implements OnInit {
     this.totalArchives = 0;
     setTimeout(() => {
       this.selectedArchive = this.selectedArchive.filter((archive: FilmDto | VehicleDto | PeopleDto | PlanetDto | SpeciesDto | StarshipDto) => {
+        // Check if the archive has a title (film) or a name (vehicle, people, planet, species, starship)
         if ("title" in archive) {
           return archive.title.toLowerCase().includes(this.searchQuery.toLowerCase())
         } else if ("name" in archive) {
@@ -250,6 +261,9 @@ export class OverviewComponent implements OnInit {
     }, 300);
   }
 
+  /**
+   * Clear the search input
+   */
   clearSearch() {
     this.searchQuery = ''
     this.searchArchives()

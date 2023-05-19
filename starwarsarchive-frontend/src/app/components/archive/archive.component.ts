@@ -37,6 +37,9 @@ export class ArchiveComponent {
   @Input() url: string | null = null;
   @Output() onShowDetails = new EventEmitter<void>();
 
+  /**
+   * Show more details about the archive
+   */
   onShowDetailsClick(): void {
     this.onShowDetails.emit();
   }
