@@ -81,7 +81,6 @@ export class ArchivedetailsComponent {
    * Compute the additional details to display
    */
   computeAdditionalDetails() {
-
     if (this.type == null) {
       this.additionalDetails.push("No additional details available");
     } else {
@@ -172,7 +171,7 @@ export class ArchivedetailsComponent {
     this.additionalDetails.push("Designation: " + this.data.archive.designation);
     this.additionalDetails.push("Eye Colors: " + this.data.archive.eye_colors);
     this.additionalDetails.push("Hair Colors: " + this.data.archive.hair_colors);
-    this.additionalDetails.push("Skin colors" + this.data.archive.skin_colors);
+    this.additionalDetails.push("Skin colors: " + this.data.archive.skin_colors);
     this.additionalDetails.push("Language: " + this.data.archive.language);
     this.additionalDetails.push("Homeworld: " + this.searchForItems(this.data.allPlanets, [this.data.archive.homeworld]));
     this.additionalDetails.push("People: " + this.searchForItems(this.data.allPeople, this.data.archive.people));

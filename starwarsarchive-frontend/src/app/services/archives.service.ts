@@ -26,18 +26,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
-import {FilmDto} from "../models/dto/film.dto.model";
-import {PeopleDto} from "../models/dto/people.dto.model";
-import {StarshipDto} from "../models/dto/starship.dto.model";
 import {ManyFilmsDto} from "../models/dto/many.films.dto.model";
 import {ManyPeopleDto} from "../models/dto/many.people.dto.model";
-import {PlanetDto} from "../models/dto/planet.dto.model";
 import {ManyPlanetsDto} from "../models/dto/many.planets.dto.model";
-import {SpeciesDto} from "../models/dto/species.dto.model";
 import {ManySpeciesDto} from "../models/dto/many.species.dto.model";
 import {ManyStarshipsDto} from "../models/dto/many.starships.dto.model";
-import {VehicleDto} from "../models/dto/vehicle.dto.model";
 import {ManyVehiclesDto} from "../models/dto/many.vehicles.dto.model";
+import {config} from "../config";
 
 @Injectable({
   providedIn: 'root'
@@ -45,19 +40,12 @@ import {ManyVehiclesDto} from "../models/dto/many.vehicles.dto.model";
 export class ArchivesService {
 
   // The url of the API
-  private readonly url: string = 'http://localhost:8080/api/';
+  private readonly url: string;
 
   constructor(
     private http: HttpClient,
   ) {
-  }
-
-  /**
-   * Get a film by its id
-   * @param id
-   */
-  getFilm(id: number): Observable<FilmDto> {
-    return this.http.get<FilmDto>(this.url + 'films/' + id);
+    this.url = config.api_url + '/api/';
   }
 
   /**
@@ -72,14 +60,6 @@ export class ArchivesService {
   }
 
   /**
-   * Get a character by its id
-   * @param id
-   */
-  getPeople(id: number): Observable<PeopleDto> {
-    return this.http.get<PeopleDto>(this.url + 'people/' + id);
-  }
-
-  /**
    * Get all the characters
    */
   getAllPeople(): Observable<ManyPeopleDto> {
@@ -88,14 +68,6 @@ export class ArchivesService {
         people.results.sort((a, b) => a.name.localeCompare(b.name));
         return people;
       }));
-  }
-
-  /**
-   * Get a planet by its id
-   * @param id
-   */
-  getPlanet(id: number): Observable<PlanetDto> {
-    return this.http.get<PlanetDto>(this.url + 'planets/' + id);
   }
 
   /**
@@ -110,14 +82,6 @@ export class ArchivesService {
   }
 
   /**
-   * Get a species by its id
-   * @param id
-   */
-  getSpecies(id: number): Observable<SpeciesDto> {
-    return this.http.get<SpeciesDto>(this.url + 'species/' + id);
-  }
-
-  /**
    * Get all the species
    */
   getAllSpecies(): Observable<ManySpeciesDto> {
@@ -129,14 +93,6 @@ export class ArchivesService {
   }
 
   /**
-   * Get a starship by its id
-   * @param id
-   */
-  getStarship(id: number): Observable<StarshipDto> {
-    return this.http.get<StarshipDto>(this.url + 'starships/' + id);
-  }
-
-  /**
    * Get all the starships
    */
   getAllStarships(): Observable<ManyStarshipsDto> {
@@ -145,14 +101,6 @@ export class ArchivesService {
         starships.results.sort((a, b) => a.name.localeCompare(b.name));
         return starships;
       }));
-  }
-
-  /**
-   * Get a vehicle by its id
-   * @param id
-   */
-  getVehicle(id: number): Observable<VehicleDto> {
-    return this.http.get<VehicleDto>(this.url + 'vehicles/' + id);
   }
 
   /**

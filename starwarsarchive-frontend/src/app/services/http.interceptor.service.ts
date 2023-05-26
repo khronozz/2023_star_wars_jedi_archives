@@ -25,8 +25,8 @@
 
 import {Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
-import {catchError, Observable} from "rxjs";
-import Swal from "sweetalert2";
+import {Observable} from "rxjs";
+import {config} from '../config';
 
 @Injectable({
   providedIn: 'root'
@@ -42,16 +42,13 @@ export class HttpInterceptorService implements HttpInterceptor {
    * @param next: the HTTP handler
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req).pipe(
-      catchError((err, caught) => {
-        console.error("HTTP INTERCEPTOR ERROR", err);
-        Swal.fire({
-          title: 'Erreur',
-          text: err.error ? err.error.message : err.message,
-          icon: 'error',
-        });
-        throw err;
+
+    if (req.url.includes('http://localhost:8080')) {
+      req = req.clone({
+        url: req.url.replace('http://localhost:8080', config.api_url)
       })
-    );
+    }
+
+    return next.handle(req)
   }
 }
