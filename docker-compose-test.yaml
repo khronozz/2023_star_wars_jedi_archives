@@ -1,0 +1,18 @@
+version: '3.6'
+
+services:
+  frontend:
+    image: registry.gitlab.com/khronozz/2023_star_wars_jedi_archives/starwarsarchive-frontend:latest
+    container_name: starwarsarchive-frontend-test
+    restart: always
+    ports:
+      - '8081:80'
+    depends_on:
+      - backend
+
+  backend:
+    image: registry.gitlab.com/khronozz/2023_star_wars_jedi_archives/starwarsarchive-backend:latest
+    container_name: starwarsarchive-backend-test
+    restart: always
+    ports:
+      - '8080:8080'

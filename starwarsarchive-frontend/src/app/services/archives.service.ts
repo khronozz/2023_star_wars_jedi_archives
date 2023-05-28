@@ -32,27 +32,22 @@ import {ManyPlanetsDto} from "../models/dto/many.planets.dto.model";
 import {ManySpeciesDto} from "../models/dto/many.species.dto.model";
 import {ManyStarshipsDto} from "../models/dto/many.starships.dto.model";
 import {ManyVehiclesDto} from "../models/dto/many.vehicles.dto.model";
-import {config} from "../config";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArchivesService {
 
-  // The url of the API
-  private readonly url: string;
-
   constructor(
     private http: HttpClient,
   ) {
-    this.url = config.api_url + '/api/';
   }
 
   /**
    * Get all the films
    */
   getAllFilms(): Observable<ManyFilmsDto> {
-    return this.http.get<ManyFilmsDto>(this.url + 'films').pipe(
+    return this.http.get<ManyFilmsDto>('films').pipe(
       map(films => {
         films.results.sort((a, b) => Number(a.episode_id) - Number(b.episode_id));
         return films;
@@ -63,7 +58,7 @@ export class ArchivesService {
    * Get all the characters
    */
   getAllPeople(): Observable<ManyPeopleDto> {
-    return this.http.get<ManyPeopleDto>(this.url + 'people').pipe(
+    return this.http.get<ManyPeopleDto>('people').pipe(
       map(people => {
         people.results.sort((a, b) => a.name.localeCompare(b.name));
         return people;
@@ -74,7 +69,7 @@ export class ArchivesService {
    * Get all the planets
    */
   getAllPlanets(): Observable<ManyPlanetsDto> {
-    return this.http.get<ManyPlanetsDto>(this.url + 'planets').pipe(
+    return this.http.get<ManyPlanetsDto>('planets').pipe(
       map(planets => {
         planets.results.sort((a, b) => a.name.localeCompare(b.name));
         return planets;
@@ -85,7 +80,7 @@ export class ArchivesService {
    * Get all the species
    */
   getAllSpecies(): Observable<ManySpeciesDto> {
-    return this.http.get<ManySpeciesDto>(this.url + 'species').pipe(
+    return this.http.get<ManySpeciesDto>('species').pipe(
       map(species => {
         species.results.sort((a, b) => a.name.localeCompare(b.name));
         return species;
@@ -96,7 +91,7 @@ export class ArchivesService {
    * Get all the starships
    */
   getAllStarships(): Observable<ManyStarshipsDto> {
-    return this.http.get<ManyStarshipsDto>(this.url + 'starships').pipe(
+    return this.http.get<ManyStarshipsDto>('starships').pipe(
       map(starships => {
         starships.results.sort((a, b) => a.name.localeCompare(b.name));
         return starships;
@@ -107,7 +102,7 @@ export class ArchivesService {
    * Get all the vehicles
    */
   getAllVehicles(): Observable<ManyVehiclesDto> {
-    return this.http.get<ManyVehiclesDto>(this.url + 'vehicles').pipe(
+    return this.http.get<ManyVehiclesDto>('vehicles').pipe(
       map(vehicles => {
         vehicles.results.sort((a, b) => a.name.localeCompare(b.name));
         return vehicles;

@@ -26,15 +26,12 @@
 import {Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {config} from '../config';
+import {config} from "../config";
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpInterceptorService implements HttpInterceptor {
-
-  constructor() {
-  }
 
   /**
    * Intercept the HTTP request and handle errors
@@ -43,11 +40,16 @@ export class HttpInterceptorService implements HttpInterceptor {
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    if (req.url.includes('http://localhost:8080')) {
-      req = req.clone({
-        url: req.url.replace('http://localhost:8080', config.api_url)
-      })
+    let serverUrl: string = "";
+    if (location.hostname === 'localhost') {
+      serverUrl = "http://localhost:8080/api/";
+    } else {
+      serverUrl = config.api_url + "/api/";
     }
+
+    req = req.clone({
+      url: serverUrl + req.url
+    })
 
     return next.handle(req)
   }
