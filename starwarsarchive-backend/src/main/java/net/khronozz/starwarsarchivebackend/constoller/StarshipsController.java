@@ -13,9 +13,10 @@
 // limitations under the License.
 package net.khronozz.starwarsarchivebackend.constoller;
 
-import net.khronozz.starwarsarchivebackend.service.StarshipsService;
+import net.khronozz.starwarsarchivebackend.model.ManyStarshipsDTO;
+import net.khronozz.starwarsarchivebackend.model.StarshipDTO;
+import net.khronozz.starwarsarchivebackend.service.ArchiveService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,10 +33,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/starships")
 public class StarshipsController {
 
-    private final StarshipsService starshipsService;
+    private final ArchiveService<StarshipDTO, ManyStarshipsDTO> archiveService;
 
-    public StarshipsController(StarshipsService starshipsService) {
-        this.starshipsService = starshipsService;
+    public StarshipsController() {
+        this.archiveService = new ArchiveService<>("https://swapi.dev/api/starships/", ManyStarshipsDTO.class);
     }
 
     /**
@@ -45,17 +46,6 @@ public class StarshipsController {
      */
     @GetMapping("")
     public Object getAllStarships() {
-        return starshipsService.getAllStarships();
-    }
-
-    /**
-     * Get a starship by its id
-     *
-     * @param id the id of the starship
-     * @return StarshipDTO
-     */
-    @GetMapping("/{id}")
-    public Object getStarshipById(@PathVariable String id) {
-        return starshipsService.getStarshipById(Integer.parseInt(id));
+        return archiveService.getAll();
     }
 }

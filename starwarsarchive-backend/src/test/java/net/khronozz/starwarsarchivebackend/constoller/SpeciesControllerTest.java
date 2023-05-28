@@ -16,7 +16,6 @@ package net.khronozz.starwarsarchivebackend.constoller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.khronozz.starwarsarchivebackend.model.SpeciesDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,7 +25,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for {@link SpeciesController}
@@ -60,54 +58,5 @@ class SpeciesControllerTest {
         assertThat(jsonNode.get("count").asInt()).isEqualTo(37);
         assertThat(jsonNode.get("results").isArray()).isTrue();
         assertThat(jsonNode.get("results").size()).isEqualTo(37);
-    }
-
-    /**
-     * Test method for {@link SpeciesController#getSpeciesById(String)}
-     */
-    @Test
-    void getSpeciesById() throws JsonProcessingException {
-        ResponseEntity<String> response = restTemplate.exchange(
-                "/api/species/1",
-                HttpMethod.GET,
-                null,
-                String.class
-        );
-        ObjectMapper objectMapper = new ObjectMapper();
-        SpeciesDTO speciesDTO = objectMapper.readValue(response.getBody(), SpeciesDTO.class);
-        String expectedResponse = """
-                {
-                	"name": "Human",
-                	"classification": "mammal",
-                	"designation": "sentient",
-                	"average_height": "180",
-                	"skin_colors": "caucasian, black, asian, hispanic",
-                	"hair_colors": "blonde, brown, black, red",
-                	"eye_colors": "brown, blue, green, hazel, grey, amber",
-                	"average_lifespan": "120",
-                	"homeworld": "https://swapi.dev/api/planets/9/",
-                	"language": "Galactic Basic",
-                	"people": [
-                		"https://swapi.dev/api/people/66/",
-                		"https://swapi.dev/api/people/67/",
-                		"https://swapi.dev/api/people/68/",
-                		"https://swapi.dev/api/people/74/"
-                	],
-                	"films": [
-                		"https://swapi.dev/api/films/1/",
-                		"https://swapi.dev/api/films/2/",
-                		"https://swapi.dev/api/films/3/",
-                		"https://swapi.dev/api/films/4/",
-                		"https://swapi.dev/api/films/5/",
-                		"https://swapi.dev/api/films/6/"
-                	],
-                	"created": "2014-12-10T13:52:11.567000Z",
-                	"edited": "2014-12-20T21:36:42.136000Z",
-                	"url": "https://swapi.dev/api/species/1/"
-                }
-                """;
-        SpeciesDTO expectedSpeciesDTO = objectMapper.readValue(expectedResponse, SpeciesDTO.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(speciesDTO).isEqualTo(expectedSpeciesDTO);
     }
 }

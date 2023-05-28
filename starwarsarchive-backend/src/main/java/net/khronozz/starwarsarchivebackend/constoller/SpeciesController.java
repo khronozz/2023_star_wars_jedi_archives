@@ -15,9 +15,8 @@ package net.khronozz.starwarsarchivebackend.constoller;
 
 import net.khronozz.starwarsarchivebackend.model.ManySpeciesDTO;
 import net.khronozz.starwarsarchivebackend.model.SpeciesDTO;
-import net.khronozz.starwarsarchivebackend.service.SpeciesService;
+import net.khronozz.starwarsarchivebackend.service.ArchiveService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,10 +33,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/species")
 public class SpeciesController {
 
-    private final SpeciesService speciesService;
+    private final ArchiveService<SpeciesDTO, ManySpeciesDTO> archiveService;
 
-    public SpeciesController(SpeciesService speciesService) {
-        this.speciesService = speciesService;
+    public SpeciesController() {
+        this.archiveService = new ArchiveService<>("https://swapi.dev/api/species/", ManySpeciesDTO.class);
     }
 
     /**
@@ -47,17 +46,6 @@ public class SpeciesController {
      */
     @GetMapping("")
     public ManySpeciesDTO getAllSpecies() {
-        return speciesService.getAllSpecies();
-    }
-
-    /**
-     * Get a species by its id
-     *
-     * @param id the id of the species
-     * @return SpeciesDTO
-     */
-    @GetMapping("/{id}")
-    public SpeciesDTO getSpeciesById(@PathVariable String id) {
-        return speciesService.getSpeciesById(Integer.parseInt(id));
+        return archiveService.getAll();
     }
 }

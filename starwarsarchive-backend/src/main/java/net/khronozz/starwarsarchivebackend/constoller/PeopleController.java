@@ -15,9 +15,8 @@ package net.khronozz.starwarsarchivebackend.constoller;
 
 import net.khronozz.starwarsarchivebackend.model.ManyPeopleDTO;
 import net.khronozz.starwarsarchivebackend.model.PeopleDTO;
-import net.khronozz.starwarsarchivebackend.service.PeopleService;
+import net.khronozz.starwarsarchivebackend.service.ArchiveService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,10 +32,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/people")
 public class PeopleController {
-    private final PeopleService peopleService;
 
-    public PeopleController(PeopleService peopleService) {
-        this.peopleService = peopleService;
+    private final ArchiveService<PeopleDTO, ManyPeopleDTO> archiveService;
+
+    public PeopleController() {
+        this.archiveService = new ArchiveService<>("https://swapi.dev/api/people/", ManyPeopleDTO.class);
     }
 
     /**
@@ -46,17 +46,6 @@ public class PeopleController {
      */
     @GetMapping("")
     public ManyPeopleDTO getAllPeople() {
-        return peopleService.getAllPeople();
-    }
-
-    /**
-     * Get a character by its id
-     *
-     * @param id the id of the character
-     * @return PeopleDTO
-     */
-    @GetMapping("/{id}")
-    public PeopleDTO getPeopleById(@PathVariable String id) {
-        return peopleService.getPeopleById(Integer.parseInt(id));
+        return archiveService.getAll();
     }
 }

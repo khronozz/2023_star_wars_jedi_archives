@@ -24,14 +24,20 @@ import lombok.*;
  * @email khronozz-dev@proton.me
  * @userid khronozz
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class ManyStarshipsDTO {
+public class ManyStarshipsDTO extends ArchiveDataDTO<StarshipDTO> {
     private int count;
     private String next;
     private String previous;
     private StarshipDTO[] results;
+
+    @Override
+    public StarshipDTO[] createArray(int size) {
+        return new StarshipDTO[0];
+    }
 }

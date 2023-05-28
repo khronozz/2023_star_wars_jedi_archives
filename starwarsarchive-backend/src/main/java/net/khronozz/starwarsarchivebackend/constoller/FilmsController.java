@@ -15,9 +15,8 @@ package net.khronozz.starwarsarchivebackend.constoller;
 
 import net.khronozz.starwarsarchivebackend.model.FilmDTO;
 import net.khronozz.starwarsarchivebackend.model.ManyFilmsDTO;
-import net.khronozz.starwarsarchivebackend.service.FilmsService;
+import net.khronozz.starwarsarchivebackend.service.ArchiveService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,11 +32,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/films")
 public class FilmsController {
+    private final ArchiveService<FilmDTO, ManyFilmsDTO> archiveService;
 
-    private final FilmsService filmsService;
-
-    public FilmsController(FilmsService filmsService) {
-        this.filmsService = filmsService;
+    public FilmsController() {
+        this.archiveService = new ArchiveService<>("https://swapi.dev/api/films", ManyFilmsDTO.class);
     }
 
     /**
@@ -47,17 +45,6 @@ public class FilmsController {
      */
     @GetMapping("")
     public ManyFilmsDTO getAllFilms() {
-        return filmsService.getAllFilms();
-    }
-
-    /**
-     * Get a film by its id
-     *
-     * @param id the id of the film
-     * @return FilmDTO
-     */
-    @GetMapping("/{id}")
-    public FilmDTO getFilmById(@PathVariable String id) {
-        return filmsService.getFilmById(Integer.parseInt(id));
+        return archiveService.getAll();
     }
 }
