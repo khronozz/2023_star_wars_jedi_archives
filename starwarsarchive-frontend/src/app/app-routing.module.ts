@@ -42,8 +42,12 @@ const routes: Routes = [
   // Overview
   {path: 'overview', component: OverviewComponent, canActivate: [AuthentificationService.isLoggedIn]},
 
+  // Empty path redirect to signin or overview
+  {path: '', component: OverviewComponent, canActivate: [AuthentificationService.isLoggedIn]},
+  {path: '', component: SigninComponent, canActivate: [AuthentificationService.isLoggedOut]},
+
   // Default
-  {path: '**', redirectTo: '/signin', pathMatch: 'full'}
+  {path: '**', redirectTo: '/signin', pathMatch: 'full'},
 ];
 
 @NgModule({
@@ -62,8 +66,8 @@ export class AppRoutingModule {
       this.router.navigate(['signin']);
     }
 
-    // Redirect to overview if user access page and was already logged in
-    this.router.events.subscribe((event: any) => {
+    //Redirect to overview if user access page and was already logged in
+    this.router.events.subscribe((event:any) => {
       if (event.url === "/") {
         if (AuthentificationService.isLoggedIn()) {
           this.router.navigate(['overview']);
