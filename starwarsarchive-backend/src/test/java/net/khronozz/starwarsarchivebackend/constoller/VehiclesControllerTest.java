@@ -16,7 +16,6 @@ package net.khronozz.starwarsarchivebackend.constoller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.khronozz.starwarsarchivebackend.model.VehicleDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,7 +25,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for {@link VehiclesController}
@@ -60,46 +58,5 @@ class VehiclesControllerTest {
         assertThat(jsonNode.get("count").asInt()).isEqualTo(39);
         assertThat(jsonNode.get("results").isArray()).isTrue();
         assertThat(jsonNode.get("results").size()).isEqualTo(39);
-    }
-
-    /**
-     * Test method for {@link VehiclesController#getVehiclesById(String)}
-     */
-    @Test
-    void getVehiclesById() throws JsonProcessingException {
-        ResponseEntity<String> response = restTemplate.exchange(
-                "/api/vehicles/4",
-                HttpMethod.GET,
-                null,
-                String.class
-        );
-        ObjectMapper objectMapper = new ObjectMapper();
-        VehicleDTO vehicleDTO = objectMapper.readValue(response.getBody(), VehicleDTO.class);
-        String expectedResponse = """
-                {
-                	"name": "Sand Crawler",
-                	"model": "Digger Crawler",
-                	"manufacturer": "Corellia Mining Corporation",
-                	"cost_in_credits": "150000",
-                	"length": "36.8 ",
-                	"max_atmosphering_speed": "30",
-                	"crew": "46",
-                	"passengers": "30",
-                	"cargo_capacity": "50000",
-                	"consumables": "2 months",
-                	"vehicle_class": "wheeled",
-                	"pilots": [],
-                	"films": [
-                		"https://swapi.dev/api/films/1/",
-                		"https://swapi.dev/api/films/5/"
-                	],
-                	"created": "2014-12-10T15:36:25.724000Z",
-                	"edited": "2014-12-20T21:30:21.661000Z",
-                	"url": "https://swapi.dev/api/vehicles/4/"
-                }
-                """;
-        VehicleDTO expectedVehicleDTO = objectMapper.readValue(expectedResponse, VehicleDTO.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertEquals(expectedVehicleDTO, vehicleDTO);
     }
 }

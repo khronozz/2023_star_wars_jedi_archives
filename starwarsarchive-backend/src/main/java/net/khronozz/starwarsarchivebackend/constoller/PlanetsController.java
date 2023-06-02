@@ -15,9 +15,8 @@ package net.khronozz.starwarsarchivebackend.constoller;
 
 import net.khronozz.starwarsarchivebackend.model.ManyPlanetsDTO;
 import net.khronozz.starwarsarchivebackend.model.PlanetDTO;
-import net.khronozz.starwarsarchivebackend.service.PlanetsService;
+import net.khronozz.starwarsarchivebackend.service.ArchiveService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,10 +33,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/planets")
 public class PlanetsController {
 
-    private final PlanetsService planetsService;
+    private final ArchiveService<PlanetDTO, ManyPlanetsDTO> archiveService;
 
-    public PlanetsController(PlanetsService planetsService) {
-        this.planetsService = planetsService;
+    public PlanetsController() {
+        this.archiveService = new ArchiveService<>("https://swapi.dev/api/planets/", ManyPlanetsDTO.class);
     }
 
     /**
@@ -47,18 +46,6 @@ public class PlanetsController {
      */
     @GetMapping("")
     public ManyPlanetsDTO getAllPlanets() {
-        return planetsService.getAllPlanets();
+        return archiveService.getAll();
     }
-
-    /**
-     * Get a planet by its id
-     *
-     * @param id the id of the planet
-     * @return PlanetDTO
-     */
-    @GetMapping("/{id}")
-    public PlanetDTO getPlanetById(@PathVariable String id) {
-        return planetsService.getPlanetById(Integer.parseInt(id));
-    }
-
 }
