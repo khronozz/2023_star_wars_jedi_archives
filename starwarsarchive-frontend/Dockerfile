@@ -1,4 +1,4 @@
-FROM node AS build
+FROM node:18-bullseye AS build
 WORKDIR /app
 COPY *.json ./
 RUN npm install

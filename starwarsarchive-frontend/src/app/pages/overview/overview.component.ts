@@ -212,8 +212,8 @@ export class OverviewComponent implements OnInit {
    */
   onShowMore(archive: FilmDto | VehicleDto | PeopleDto | PlanetDto | SpeciesDto | StarshipDto) {
     this.dialog.open(ArchivedetailsComponent, {
-      width: "50%",
-      height: "85%",
+      width: "80%",
+      height: "95%",
       data: {
         archive: archive,
         type: this.getArchiveType(archive),
