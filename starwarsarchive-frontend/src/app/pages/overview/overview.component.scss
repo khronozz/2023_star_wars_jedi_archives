@@ -27,6 +27,7 @@ body {
   justify-content: flex-start;
   align-items: flex-start;
   align-content: flex-start;
+  margin-top: 10px;
 }
 
 .spinner-container {
@@ -37,13 +38,9 @@ body {
   height: 100%;
 }
 
-.filter-group {
-  margin-bottom: 10px;
-}
-
 .archive-holder {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
   grid-gap: 20px;
 }
 
@@ -53,4 +50,37 @@ body {
 
 .clear-button {
   height: 23px;
+}
+
+@media (max-width: 990px) {
+  .filter {
+    // display rows on top of each other
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+  }
+
+  .filter-group {
+    justify-content: flex-start;
+    width: fit-content;
+    display: grid;
+  }
+
+  .search-bar {
+    margin-top: 10px;
+  }
+}
+
+@media (min-width: 991px) {
+  .filter {
+    // display rows next to each other with space in between
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .filter-group {
+    justify-content: flex-start;
+    height: 50px;
+  }
 }

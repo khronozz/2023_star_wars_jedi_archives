@@ -13,7 +13,8 @@
   <p>- Click on the filter icons to filter the archives by type</p>
   <p>- Use the search bar on the right to search for archives by name</p>
 
-  <div fxLayout="row" fxLayoutAlign="space-between center">
+<!--  <div fxLayout="row" class="filter" fxLayoutAlign="space-between center">-->
+  <div class="filter">
 
     <!-- Content filter buttons -->
     <mat-button-toggle-group class="filter-group" [(ngModel)]="selectedFilter" (change)="filterArchives()">
@@ -40,7 +41,7 @@
 
   </div>
 
-  <!-- To indicate date is being fetched -->
+  <!-- To indicate data is being fetched -->
   <ng-container *ngIf="loadingArchives; else archiveContent">
     <div class="spinner-container">
       <mat-spinner class="loading-archive" mode="indeterminate"></mat-spinner>
